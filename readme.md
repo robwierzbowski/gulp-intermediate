@@ -1,36 +1,38 @@
-# gulp-ruby-sass [![Build Status](https://travis-ci.org/sindresorhus/gulp-ruby-sass.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-ruby-sass)
+# gulp-ruby-jekyll 
 
-> Compile Sass to CSS with [Ruby Sass](http://sass-lang.com/install)
+<!-- [![Build Status](https://travis-ci.org/sindresorhus/gulp-ruby-sass.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-ruby-sass) -->
+
+<!-- > Compile Sass to CSS with [Ruby Sass](http://sass-lang.com/install)
 
 This is slower than [gulp-sass](https://github.com/dlmanning/gulp-sass), but more stable and feature-rich.
 
 *Issues with the output should be reported on the Sass [issue tracker](https://github.com/nex3/sass/issues).*
-
+ -->
 
 ## Install
 
 ```sh
-$ npm install --save-dev gulp-ruby-sass
+$ npm install --save-dev gulp-ruby-jekyll
 ```
 
-You also need to have [Ruby](http://www.ruby-lang.org/en/downloads/) and [Sass](http://sass-lang.com/download.html) installed. If you're on OS X or Linux you probably already have Ruby; test with `ruby -v` in your terminal. When you've confirmed you have Ruby, run `gem install sass` to install Sass.
-
+<!-- You also need to have [Ruby](http://www.ruby-lang.org/en/downloads/) and [Sass](http://sass-lang.com/download.html) installed. If you're on OS X or Linux you probably already have Ruby; test with `ruby -v` in your terminal. When you've confirmed you have Ruby, run `gem install sass` to install Sass.
+ -->
 
 ## Usage
 
 ```js
 var gulp = require('gulp');
-var sass = require('gulp-ruby-sass');
+var jekyll = require('gulp-ruby-jekyll');
 
 gulp.task('default', function () {
-	return gulp.src('src/app.scss')
-		.pipe(sass({sourcemap: true}))
-		.pipe(gulp.dest('dist'));
+	// return gulp.src('src/app.scss')
+	//	.pipe(sass({sourcemap: true}))
+	//	.pipe(gulp.dest('dist'));
 });
 ```
 
 
-## API
+<!-- ## API
 
 Note that files starting with `_` are ignored even if they match the globbing pattern.  
 This is done to match the expected [Sass partial behaviour](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#partials).
@@ -160,7 +162,7 @@ Default: `false`
 
 Run `sass` with [bundle exec](http://gembundler.com/man/bundle-exec.1.html): `bundle exec sass`.
 
-
+ -->
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Rob Wierzbowski](http://robwierzbowski.com)

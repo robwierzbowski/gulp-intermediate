@@ -1,13 +1,13 @@
 {
-  "name": "gulp-ruby-sass",
-  "version": "0.5.0",
-  "description": "Compile Sass to CSS with Ruby Sass",
+  "name": "gulp-ruby-jekyll",
+  "version": "0.0.0",
+  "description": "Run Jekyll as part of a Gulp process",
   "license": "MIT",
-  "repository": "sindresorhus/gulp-ruby-sass",
+  "repository": "robwierzbowski/gulp-ruby-jekyll",
   "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "http://sindresorhus.com"
+    "name": "Rob Wierzbowski",
+    "email": " hello@robwierzbowski.com",
+    "url": "http://robwierzbowski.com"
   },
   "engines": {
     "node": ">=0.10.0"
@@ -20,15 +20,9 @@
   ],
   "keywords": [
     "gulpplugin",
-    "scss",
-    "sass",
-    "css",
-    "compile",
-    "preprocessor",
-    "style",
-    "ruby",
-    "source-map",
-    "sourcemap"
+    "jekyll",
+    "static site",
+    "ruby"
   ],
   "dependencies": {
     "chalk": "^0.4.0",
