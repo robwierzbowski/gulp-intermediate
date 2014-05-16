@@ -6,20 +6,20 @@ var through = require('through2');
 var spawn = require('win-spawn');
 var tempWrite = require('temp-write');
 var dargs = require('dargs');
-var which = require('which');
+var shelljs = require('shelljs');
 var chalk = require('chalk');
 
 module.exports = function (options) {
 	options = options || {};
 	var passedArgs = dargs(options, ['bundleExec']);
 	var bundleExec = options.bundleExec;
+	var versionTest = bundleExec === true ? 'bundle exec jekyll -v' : 'jekyll -v';
 
-	if (!bundleExec) {
-		try {
-			which.sync('sass');
-		} catch (err) {
-			throw new gutil.PluginError('gulp-ruby-sass', 'You need to have Ruby and Sass installed and in your PATH for this task to work.');
-		}
+	try {
+		shelljs.exec(versionTest, {silent: true});
+	}
+	catch (err) {
+		throw new gutil.PluginError('gulp-ruby-jekyll', 'You need to have Ruby and Jekyll installed and in your PATH for this task to work.');
 	}
 
 	return through.obj(function (file, enc, cb) {

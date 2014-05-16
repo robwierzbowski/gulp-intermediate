@@ -30,8 +30,8 @@
     "gulp-util": "^2.2.0",
     "temp-write": "^0.3.0",
     "through2": "^0.4.0",
-    "which": "^1.0.5",
-    "win-spawn": "^2.0.0"
+    "win-spawn": "^2.0.0",
+    "shelljs": "^0.3.0"
   },
   "devDependencies": {
     "mocha": "*"
