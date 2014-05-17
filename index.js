@@ -13,10 +13,10 @@ module.exports = function (options) {
 	options = options || {};
 	var passedArgs = dargs(options, ['bundleExec']);
 	var bundleExec = options.bundleExec;
-	var versionTest = bundleExec === true ? 'bundle exec jekyll -v' : 'jekyll -v';
+	var versionCommand = bundleExec === true ? 'bundle exec jekyll -v' : 'jekyll -v';
 
 	try {
-		shelljs.exec(versionTest, {silent: true});
+		shelljs.exec(versionCommand, {silent: true});
 	}
 	catch (err) {
 		throw new gutil.PluginError('gulp-ruby-jekyll', 'You need to have Ruby and Jekyll installed and in your PATH for this task to work.');
