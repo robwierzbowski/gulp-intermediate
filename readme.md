@@ -12,6 +12,14 @@
 - [ ] Remove cwd path from gulp files?
 - [ ] Test
 
+**General idea**
+
+1. take a gulp stream
+1. write to disk in tmp dir
+1. user provides custom transform
+1. user provides directory to read (based on custom transform)
+1. gobbles it back up and passes back to pipe/through
+
 ## Install
 
 ```sh
