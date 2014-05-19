@@ -9,6 +9,8 @@ This is slower than [gulp-sass](https://github.com/dlmanning/gulp-sass), but mor
 *Issues with the output should be reported on the Sass [issue tracker](https://github.com/nex3/sass/issues).*
  -->
 
+<!-- TODO: Tests — just test integration — that the command is correct, that the command console output is correct, that simple files exist when run -->
+
 ## Install
 
 ```sh
@@ -31,6 +33,8 @@ gulp.task('default', function () {
 });
 ```
 
+
+<!-- Just exposes Jekyll compilation as a gulp stream. Use spawn for everything else, doctor, etc. -->
 
 <!-- ## API
 
