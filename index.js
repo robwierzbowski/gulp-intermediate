@@ -7,22 +7,25 @@ var mkdirp = require('mkdirp');
 var tmpdir = require('os').tmpdir();
 var through = require('through2');
 
-module.exports = function (cleanup) {
+module.exports = function (transform) {
   var newTempDir = path.join(tmpdir, uuid.v4());
+  var tempCWD;
 
   try {
     mkdirp.sync(newTempDir);
   }
   catch (err) {
-    throw new gutil.PluginError('gulp-ruby-jekyll', err);
+    throw new gutil.PluginError('gulp-intermediate', err);
   }
-
-  console.log(newTempDir);
 
   function bufferFiles(file, enc, cb) {
     var self = this;
     var intermediateFilePath = path.join(newTempDir, file.path);
-    var intermediateFileBase = path.dirname(intermediateFilePath);
+    var intermediateFileDir = path.dirname(intermediateFilePath);
+
+    if (typeof tempCWD !== undefined) {
+      tempCWD = file.cwd;
+    }
 
     if (file.isNull()) {
       this.push(file);
@@ -30,19 +33,19 @@ module.exports = function (cleanup) {
     }
 
     if (file.isStream()) {
-      this.emit('error', new gutil.PluginError('gulp-ruby-jekyll', 'Streaming not supported'));
+      this.emit('error', new gutil.PluginError('gulp-intermediate', 'Streaming not supported'));
       return cb();
     }
 
-    mkdirp(intermediateFileBase, function (err) {
+    mkdirp(intermediateFileDir, function (err) {
       if (err) {
-        self.emit('error', new gutil.PluginError('gulp-ruby-jekyll', 'err'));
+        self.emit('error', new gutil.PluginError('gulp-intermediate', 'err'));
         return cb();
       }
 
       fs.writeFile(intermediateFilePath, file.contents, function(err)  {
         if (err) {
-          self.emit('error', new gutil.PluginError('gulp-ruby-jekyll', err));
+          self.emit('error', new gutil.PluginError('gulp-intermediate', err));
           return cb();
         }
 
@@ -51,6 +54,9 @@ module.exports = function (cleanup) {
     });
   }
 
-  // Need to expose newTempDir, file.cwd to cleanup
-  return through.obj(bufferFiles);
+  function processFiles() {
+    transform(newTempDir, tempCWD);
+  }
+
+  return through.obj(bufferFiles, processFiles);
 };
