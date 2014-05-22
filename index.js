@@ -5,13 +5,13 @@ var uuid = require('uuid');
 var gutil = require('gulp-util');
 var mkdirp = require('mkdirp');
 var through = require('through2');
-var osTempdir = require('os').tmpdir();
+var osTempDir = require('os').tmpdir();
 
 // to use:
 // intermediate({ outputDir: 'some/relative/dir' }, function(){});
 
 module.exports = function (options, cb) {
-  var tempDir = path.join(osTempdir, uuid.v4());
+  var tempDir = path.join(osTempDir, uuid.v4());
 
   function writeIntermediateFiles(file, enc, cb) {
     var self = this;
