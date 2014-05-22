@@ -19,7 +19,7 @@
     "index.js"
   ],
   "keywords": [
-    "gulpplugin"
+    "gulpplugin",
     "gulp",
     "intermediate",
     "filesystem"
