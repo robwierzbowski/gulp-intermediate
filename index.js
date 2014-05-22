@@ -4,28 +4,27 @@ var path = require('path');
 var uuid = require('uuid');
 var gutil = require('gulp-util');
 var mkdirp = require('mkdirp');
-var tmpdir = require('os').tmpdir();
 var through = require('through2');
+var osTempdir = require('os').tmpdir();
 
-module.exports = function (transform) {
-  var newTempDir = path.join(tmpdir, uuid.v4());
-  var tempCWD;
+// to use:
+// intermediate({ outputDir: 'some/relative/dir' }, function(){});
+
+module.exports = function (options, cb) {
+  var tempDir = path.join(osTempdir, uuid.v4());
 
   try {
-    mkdirp.sync(newTempDir);
+    mkdirp.sync(tempDir);
   }
   catch (err) {
     throw new gutil.PluginError('gulp-intermediate', err);
   }
 
-  function bufferFiles(file, enc, cb) {
+  function writeIntermediateFiles(file, enc, cb) {
     var self = this;
-    var intermediateFilePath = path.join(newTempDir, file.path);
+    var shortPath = path.relative(file.cwd, file.path);
+    var intermediateFilePath = path.join(tempDir, shortPath);
     var intermediateFileDir = path.dirname(intermediateFilePath);
-
-    if (typeof tempCWD !== undefined) {
-      tempCWD = file.cwd;
-    }
 
     if (file.isNull()) {
       this.push(file);
@@ -54,9 +53,10 @@ module.exports = function (transform) {
     });
   }
 
-  function processFiles() {
-    transform(newTempDir, tempCWD);
+  function processAndOutputFiles() {
+    cb();
+    // read options.outputdir back into stream
   }
 
-  return through.obj(bufferFiles, processFiles);
+  return through.obj(writeIntermediateFiles, processAndOutputFiles);
 };
