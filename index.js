@@ -13,13 +13,6 @@ var osTempdir = require('os').tmpdir();
 module.exports = function (options, cb) {
   var tempDir = path.join(osTempdir, uuid.v4());
 
-  try {
-    mkdirp.sync(tempDir);
-  }
-  catch (err) {
-    throw new gutil.PluginError('gulp-intermediate', err);
-  }
-
   function writeIntermediateFiles(file, enc, cb) {
     var self = this;
     var shortPath = path.relative(file.cwd, file.path);
