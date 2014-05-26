@@ -31,7 +31,8 @@
     "through2": "^0.4.0",
     "vinyl-fs": "^0.1.4",
     "gulp": "^3.6.2",
-    "vinyl": "^0.2.3"
+    "vinyl": "^0.2.3",
+    "glob": "^4.0.0"
   },
   "devDependencies": {
     "mocha": "*"
