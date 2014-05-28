@@ -9,12 +9,12 @@ var mkdirp = require('mkdirp');
 var osTempDir = require('os').tmpdir();
 var Transform = require('stream').Transform;
 
-module.exports = function (options, process) {
-  var outputDir = options.outputDir || '.';
+module.exports = function (outputDir, process) {
   var transform = new Transform({ objectMode: true });
   var tempDir = path.join(osTempDir, uuid.v4());
   var origCWD;
   var origBase;
+  outputDir = outputDir || '.';
 
   transform._transform = function(file, encoding, cb) {
     var self = this;

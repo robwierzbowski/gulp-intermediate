@@ -21,7 +21,7 @@ var intermediate = require('gulp-intermediate');
 
 gulp.task('default', function () {
   return gulp.src('app/**/*.jade')
-    .pipe(intermediate({ outputDir: '_processed' }, function (tempDir, cb) {
+    .pipe(intermediate('_processed', function (tempDir, cb) {
       // A command that reads the files in `tempDir`, transforms them, and
       // writes the  transformed files to the specified outputDir.
       var command = spawn('a_command', ['arg'], {cwd: tempDir});
@@ -35,11 +35,9 @@ gulp.task('default', function () {
 
 ## API
 
-### intermediate(options, process)
+### intermediate(outputDir, process)
 
-#### options
-
-##### outputDir
+#### outputDir
 
 Type: `string`  
 Default: `.`  
