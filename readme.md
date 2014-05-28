@@ -42,7 +42,7 @@ gulp.task('default', function () {
 Type: `string`  
 Default: `.`  
 
-Tell the plugin what directory (relative to the tempDir) it should read back into the stream after processing is finished.
+The directory (relative to `tempDir`) the plugin will read files back into the stream from after processing is finished.
 
 #### process(tempDir, cb)
 
