@@ -5,11 +5,7 @@
 #### In progress
 
 **TODO:**
-- [ ] Should this be a gulp plugin or a node plugin to use for building gulp plugins?
-- [ ] Refine and example what we should do in the transform callback
-- [ ] Automate reading from the filesystem back into the gulp stream
-- [ ] Name vars better
-- [ ] Remove cwd path from gulp files?
+- [ ] Document
 - [ ] Test
 
 **General idea**
@@ -31,6 +27,9 @@ $ npm install --save-dev gulp-intermediate
 ```js
 var gulp = require('gulp');
 var jekyll = require('gulp-intermediate');
+
+// Use: 
+// intermediate({ outputDir: 'someDir' }, function(tempDir, cb) { actions; cb() })
 
 gulp.task('default', function () {
 	// return gulp.src('src/app.scss')

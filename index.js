@@ -3,35 +3,31 @@
 var fs = require('fs');
 var path = require('path');
 var uuid = require('uuid');
-var File = require('vinyl');
 var glob = require('glob');
 var gutil = require('gulp-util');
 var mkdirp = require('mkdirp');
 var osTempDir = require('os').tmpdir();
 var Transform = require('stream').Transform;
 
-// use: intermediate({ outputDir: 'someDir' }, function(tempDir, cb) { actions; cb() })
-// TODO: Need better names for transform, process, shortpath & other vars
-
 module.exports = function (options, process) {
-  var tempDir = path.join(osTempDir, uuid.v4());
+  var outputDir = options.outputDir || '.';
   var transform = new Transform({ objectMode: true });
-  var outputDir = options.outputDir ? path.join(tempDir, options.outputDir) : tempDir;
+  var tempDir = path.join(osTempDir, uuid.v4());
   var origCWD;
   var origBase;
 
   transform._transform = function(file, encoding, cb) {
     var self = this;
-    var shortPath = path.relative(file.cwd, file.path);
-    var intermediateFilePath = path.join(tempDir, shortPath);
-    var intermediateFileDir = path.dirname(intermediateFilePath);
+    var relativePath = path.relative(file.cwd, file.path);
+    var tempFilePath = path.join(tempDir, relativePath);
+    var tempFileBase = path.dirname(tempFilePath);
 
-    if (!origCWD){
-      origCWD = origCWD || file.cwd;
+    if (!origCWD) {
+      origCWD = file.cwd;
     }
 
-    if (!origBase){
-      origBase = origBase || file.base;
+    if (!origBase) {
+      origBase = file.base;
     }
 
     if (file.isNull()) {
@@ -44,15 +40,13 @@ module.exports = function (options, process) {
       return cb();
     }
 
-    // Can we cut this down?
-    mkdirp(intermediateFileDir, function (err) {
-
+    mkdirp(tempFileBase, function (err) {
       if (err) {
         self.emit('error', new gutil.PluginError('gulp-intermediate', err));
         return cb();
       }
 
-      fs.writeFile(intermediateFilePath, file.contents, function(err)  {
+      fs.writeFile(tempFilePath, file.contents, function(err)  {
         if (err) {
           self.emit('error', new gutil.PluginError('gulp-intermediate', err));
           return cb();
@@ -67,31 +61,23 @@ module.exports = function (options, process) {
     var self = this;
 
     process(tempDir, function() {
-      glob('**/*', { cwd: outputDir }, function (err, files) {
-
+      glob('**/*', { cwd: path.join(tempDir, outputDir) }, function (err, files) {
         if (err) {
           self.emit('error', new gutil.PluginError('gulp-intermediate', err));
           return cb();
         }
 
         files.forEach(function (file) {
-          var realPath = path.join(outputDir, file);
+          var realPath = path.join(tempDir, outputDir, file);
 
+          // TODO: Can we make readFile async?
           if (fs.statSync(realPath).isFile()) {
-            fs.readFile(realPath, function(err, data) {
-
-              if (err) {
-                self.emit('error', new gutil.PluginError('gulp-intermediate', err));
-                return cb();
-              }
-
-              self.push( new File({
-                cwd: origCWD,
-                base: origBase,
-                path: path.join(origBase, file),
-                contents: new Buffer(data)
-              }));
-            });
+            self.push( new gutil.File({
+              cwd: origCWD,
+              base: origBase,
+              path: path.join(origBase, file),
+              contents: new Buffer(fs.readFileSync(realPath))
+            }));
           }
         });
 
