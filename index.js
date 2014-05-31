@@ -14,7 +14,6 @@ module.exports = function (outputDir, process) {
   var tempDir = path.join(osTempDir, uuid.v4());
   var origCWD;
   var origBase;
-  outputDir = outputDir || '.';
 
   transform._transform = function(file, encoding, cb) {
     var self = this;
