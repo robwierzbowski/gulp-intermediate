@@ -1,39 +1,130 @@
 'use strict';
+var _ = require('underscore');
+var fs = require('fs');
+var path = require('path');
+var File = require('gulp-util').File;
+var findit = require('findit');
 var assert = require('assert');
-var gutil = require('gulp-util');
-var sass = require('./index');
-var EOL = require('os').EOL;
+var mkdirp = require('mkdirp');
+var intermediate = require('./index');
 
-// it('should compile Sass', function (cb) {
-// 	var stream = sass({
-// 		sourcemap: true
-// 	});
+var origCWD = __dirname;
+var origBase = path.join(origCWD, 'test');
+var outputDir = '_site';
+var testFiles = [
+  new File({
+    cwd: origCWD,
+    base: origBase,
+    path: path.join(origBase, 'top_level.js'),
+    contents: new Buffer('Hey!')
+  }),
+  new File({
+    cwd: origCWD,
+    base: origBase,
+    path: path.join(origBase, 'directory', 'nested.js'),
+    contents: new Buffer('Ho!')
+  }),
+  new File({
+    cwd: origCWD,
+    base: origBase,
+    path: path.join(origBase, 'empty.js'),
+    contents: new Buffer('')
+  })
+];
 
-// 	stream.on('data', function (file) {
-// 		if (/\.css$/.test(file.path)) {
-// 			assert.equal(file.relative, 'fixture.css');
-// 			assert.equal(
-// 				file.contents.toString('utf-8'),
-// 				'.content-navigation {' + EOL + '  border-color: #3bbfce; }' + EOL + EOL + '/*# sourceMappingURL=fixture.css.map */' + EOL
-// 			);
-// 			return;
-// 		}
+it('copies files to the OS temp directory', function (done) {
+  var testCallback = function (tempDir, cb) {
+    var testFilePaths = _.pluck(testFiles, 'path');
+    var tempFilePaths = [];
+    var finder = findit(tempDir);
 
-// 		var sm = JSON.parse(file.contents.toString());
-// 		assert.equal(file.relative, 'fixture.css.map');
-// 		assert.equal(sm.version, 3);
-// 		assert.equal(sm.file, 'fixture.css');
-// 		assert.equal(sm.sources[0], 'fixture.scss');
-// 	});
+    finder.on('file', function (filePath) {
+      tempFilePaths.push(filePath);
+    });
 
-// 	stream.on('end', cb);
+    finder.on('end', function () {
+      var relTestFilePaths = testFilePaths.map(function (testFilePath) {
+        return (path.relative(origCWD, testFilePath));
+      });
 
-// 	stream.write(new gutil.File({
-// 		cwd: __dirname,
-// 		base: __dirname + '/fixture',
-// 		path: __dirname + '/fixture/fixture.scss',
-// 		contents: new Buffer('$blue:#3bbfce;.content-navigation{border-color:$blue;}')
-// 	}));
+      var relTempFilePaths = tempFilePaths.map(function (tempFilePath) {
+        return (path.relative(tempDir, tempFilePath));
+      });
 
-// 	stream.end();
-// });
+      // Temp files have the right paths
+      assert.equal(
+        relTempFilePaths.sort().join(','),
+        relTestFilePaths.sort().join(',')
+      );
+
+      testFiles.forEach(function (testFile) {
+        var tempFilePath = path.join(tempDir, path.relative(testFile.cwd, testFile.path));
+
+        // Temp files have the right contents
+        assert.equal(
+          testFile.contents.toString(),
+          fs.readFileSync(tempFilePath).toString()
+        );
+      });
+
+      cb();
+    });
+  };
+
+  var stream = intermediate(outputDir, testCallback);
+
+  stream.on('end', function () {
+    done();
+  });
+
+  stream.write(testFiles[0]);
+  stream.write(testFiles[1]);
+  stream.write(testFiles[2]);
+  stream.resume();
+  stream.end();
+});
+
+it('streams files from the output directory', function (done) {
+  var genFiles = [
+    { path: 'puhoy.js', contents: 'Generated!' },
+    { path: 'glob_world/GOLB.js', contents: 'Re-generated!' }
+  ];
+
+  var testCallback = function (tempDir, cb) {
+    // Pretend a tool has read the input files and decided to
+    // transform them into the following:
+    genFiles.forEach(function (genFile) {
+      mkdirp.sync(path.join(tempDir, outputDir, path.dirname(genFile.path)));
+      fs.writeFileSync(path.join(tempDir, outputDir, genFile.path), genFile.contents);
+    });
+
+    cb();
+  };
+
+  var stream = intermediate(outputDir, testCallback);
+
+  stream.on('data', function (file) {
+    var genFile = _.findWhere(
+      genFiles,
+      { path: path.relative(origBase, file.path) }
+    );
+
+    // Output files have the right data
+    assert.equal(file.cwd, origCWD);
+    assert.equal(file.base, origBase);
+    assert.equal(file.contents, genFile.contents);
+
+    genFiles.splice(genFiles.indexOf(genFile), 1);
+  });
+
+  stream.on('end', function () {
+    // All output files are written
+    assert.equal(genFiles.length, 0);
+    done();
+  });
+
+  stream.write(testFiles[0]);
+  stream.write(testFiles[1]);
+  stream.write(testFiles[2]);
+  stream.end();
+});
