@@ -87,7 +87,8 @@ it('copies files to the OS temp directory', function (done) {
 it('streams files from the output directory', function (done) {
   var genFiles = [
     { path: 'puhoy.js', contents: 'Generated!' },
-    { path: 'glob_world/GOLB.js', contents: 'Re-generated!' }
+    { path: 'time_room/prismo.js', contents: 'Re-generated!' },
+    { path: 'glob_world/GOLB.js', contents: '' }
   ];
 
   var testCallback = function (tempDir, cb) {
