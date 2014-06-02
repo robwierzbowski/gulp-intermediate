@@ -114,7 +114,7 @@ it('streams files from the output directory', function (done) {
     assert.equal(file.base, origBase);
     assert.equal(file.contents, genFile.contents);
 
-    genFiles.splice(genFiles.indexOf(genFile), 1);
+    genFiles = _.without(genFiles, genFile);
   });
 
   stream.on('end', function () {
