@@ -34,21 +34,21 @@ var testFiles = [
 
 it('copies files to the OS temp directory', function (done) {
   var testCallback = function (tempDir, cb) {
-    var testFilePaths = _.pluck(testFiles, 'path');
-    var tempFilePaths = [];
+    var testPaths = _.pluck(testFiles, 'path');
+    var tempPaths = [];
     var finder = findit(tempDir);
 
     finder.on('file', function (filePath) {
-      tempFilePaths.push(filePath);
+      tempPaths.push(filePath);
     });
 
     finder.on('end', function () {
-      var relTestFilePaths = testFilePaths.map(function (testFilePath) {
-        return (path.relative(origCWD, testFilePath));
+      var relTestFilePaths = testPaths.map(function (testPath) {
+        return (path.relative(origCWD, testPath));
       });
 
-      var relTempFilePaths = tempFilePaths.map(function (tempFilePath) {
-        return (path.relative(tempDir, tempFilePath));
+      var relTempFilePaths = tempPaths.map(function (tempPath) {
+        return (path.relative(tempDir, tempPath));
       });
 
       // Temp files have the right paths
@@ -58,12 +58,12 @@ it('copies files to the OS temp directory', function (done) {
       );
 
       testFiles.forEach(function (testFile) {
-        var tempFilePath = path.join(tempDir, path.relative(testFile.cwd, testFile.path));
+        var tempPath = path.join(tempDir, path.relative(testFile.cwd, testFile.path));
 
         // Temp files have the right contents
         assert.equal(
           testFile.contents.toString(),
-          fs.readFileSync(tempFilePath).toString()
+          fs.readFileSync(tempPath).toString()
         );
       });
 
