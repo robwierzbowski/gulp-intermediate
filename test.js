@@ -33,7 +33,7 @@ var testFiles = [
 ];
 
 it('copies files to the OS temp directory', function (done) {
-  var testCallback = function (tempDir, cb) {
+  var testProcess = function (tempDir, cb) {
     var testPaths = _.pluck(testFiles, 'path');
     var tempPaths = [];
     var finder = findit(tempDir);
@@ -71,7 +71,7 @@ it('copies files to the OS temp directory', function (done) {
     });
   };
 
-  var stream = intermediate(outputDir, testCallback);
+  var stream = intermediate(outputDir, testProcess);
 
   stream.on('end', function () {
     done();
@@ -91,7 +91,7 @@ it('streams files from the output directory', function (done) {
     { path: 'glob_world/GOLB.js', contents: '' }
   ];
 
-  var testCallback = function (tempDir, cb) {
+  var testProcess = function (tempDir, cb) {
     // Pretend a tool has read the input files and decided to
     // transform them into the following:
     genFiles.forEach(function (genFile) {
@@ -102,7 +102,7 @@ it('streams files from the output directory', function (done) {
     cb();
   };
 
-  var stream = intermediate(outputDir, testCallback);
+  var stream = intermediate(outputDir, testProcess);
 
   stream.on('data', function (file) {
     var genFile = _.findWhere(
