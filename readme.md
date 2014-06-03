@@ -1,4 +1,4 @@
-# gulp-intermediate ![status](https://api.travis-ci.org/robwierzbowski/gulp-intermediate.png) ![dependencies](https://david-dm.org/robwierzbowski/gulp-intermediate.svg)
+# gulp-intermediate ![status](https://api.travis-ci.org/robwierzbowski/gulp-intermediate.svg)&nbsp;![dependencies](https://david-dm.org/robwierzbowski/gulp-intermediate.svg)
 
 > Use tools that act on the file system with gulp.
 
