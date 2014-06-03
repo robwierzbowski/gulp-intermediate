@@ -1,3 +1,4 @@
+![status](https://api.travis-ci.org/robwierzbowski/gulp-intermediate.png)  
 # gulp-intermediate
 
 > Use tools that require files on disk as part of the gulp stream.
