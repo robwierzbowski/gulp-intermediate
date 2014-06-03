@@ -1,7 +1,7 @@
 {
   "name": "gulp-intermediate",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Use tools that act on the file system with gulp.",
   "license": "MIT",
   "repository": "robwierzbowski/gulp-intermediate",
   "author": {
