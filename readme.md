@@ -42,7 +42,7 @@ gulp.task('default', function () {
 
 Type: `string`  
 
-The directory (relative to `tempDir`) from which the plugin will read files back into the stream after processing is finished.
+The plugin reads files back into the stream from this directory when processing is finished. Relative to `tempDir`.
 
 #### process(tempDir, cb)
 
@@ -52,7 +52,7 @@ Run your commands inside the `process` callback.
 
 `tempDir`: The first argument is a path to the directory that contains your temporary files. If using `spawn` you may want to set the `cwd` option to this directory.
 
-`cb`: The second argument is function to call when all processing is finished.
+`cb`: The second argument is a function to call when all processing is finished.
 
 ## Recipes
 
