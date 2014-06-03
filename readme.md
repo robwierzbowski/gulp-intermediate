@@ -1,5 +1,4 @@
-![status](https://api.travis-ci.org/robwierzbowski/gulp-intermediate.png)  
-# gulp-intermediate
+# gulp-intermediate ![status](https://api.travis-ci.org/robwierzbowski/gulp-intermediate.png) ![dependencies](https://david-dm.org/robwierzbowski/gulp-intermediate.svg)
 
 > Use tools that require files on disk as part of the gulp stream.
 
