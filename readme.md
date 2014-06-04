@@ -25,10 +25,8 @@ gulp.task('default', function () {
 
       // Run a command on the file system in tempDir and write the results to
       // the specified outputDir.
-      var command = spawn('a_command', ['output', '_site'], {cwd: tempDir});
-      command.on('close', function () {
-        cb();
-      });
+      var command = spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
+      command.on('close', cb);
     }))
     .pipe(gulp.dest('dist'));
 });
