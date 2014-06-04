@@ -2,7 +2,7 @@
 
 ## Jekyll
 
-[Jekyll](http://jekyllrb.com) is a static site builder written in Ruby. It requires access to files on disk in order to run, making it incompatible with streams. gulp-intermediate allows you to use Jekyll with gulp relatively easily.
+[Jekyll](http://jekyllrb.com) is a static site builder written in Ruby. It requires access to files on disk in order to run, making it incompatible with streams. [gulp-intermediate](https://github.com/robwierzbowski/gulp-intermediate) allows you to use Jekyll with gulp relatively easily.
 
 ### Directory structure
 
