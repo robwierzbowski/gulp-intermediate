@@ -2,7 +2,7 @@
 
 ## Jekyll
 
-[Jekyll](http://jekyllrb.com) is a static site builder written in Ruby. It requires access to files on disk in order to run, making it incompatible with streams. But, gulp-intermediate allows you to use Jekyll with gulp relatively easily.
+[Jekyll](http://jekyllrb.com) is a static site builder written in Ruby. It requires access to files on disk in order to run, making it incompatible with streams. gulp-intermediate allows you to use Jekyll with gulp relatively easily.
 
 ### Directory structure
 
@@ -34,7 +34,7 @@ For this example we're using a [Yeoman](http://yeoman.io)-like directory structu
 └── npm_modules
 ```
 
-### Gulp tasks
+### Gulp task
 
 ```js
 var gulp = require('gulp');
@@ -48,14 +48,14 @@ gulp.task('html', function () {
   
   // Pull the files you need for Jekyll into the stream. Here we're only using
   // Gulp to compile HTML, and leaving CSS, JS, and images for other, faster
-  // gulp tasks. Gemfile is required because we're running `bundle exec`.
+  // tasks. Gemfile is required because we're running `bundle exec`.
   return gulp.src([
     'app/**/*.{html,md,yml}',
     'Gemfile'
   ])
   
-  // Pipe to intermediate. Set the outputDir to the directory we're writing
-  // Jekyll output to.
+  // Pipe to intermediate. Set the outputDir to the directory we're compiling
+  // Jekyll to.
   .pipe(plug.intermediate('_site', function(tempDir, cb) {
     
     // Add some pretty logging.
@@ -82,7 +82,7 @@ gulp.task('html', function () {
       console.log('stderr: ' + data);
     });
 
-    // Run the callback on end.
+    // Run the callback when Jekyll is finished.
     jekyll.on('close', cb);
   }))
   
@@ -93,7 +93,7 @@ gulp.task('html', function () {
 
 Now that you have Jekyll compilation as part of a stream, you can:
 
-Write all your layout and template files in [jade](https://github.com/phated/gulp-jade), compile them to HTML and then run them through Jekyll.
+Write all your layout and template files in [jade](https://github.com/phated/gulp-jade), compile them to HTML and then run them through Jekyll.  
 
 ```js
  return gulp.src([

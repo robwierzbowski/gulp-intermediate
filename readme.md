@@ -50,7 +50,7 @@ Run your commands inside the `process` callback.
 
 `tempDir`: The first argument is a path to the directory that contains your temporary files. If using `spawn` you may want to set the `cwd` option to this directory.
 
-`cb`: The second argument is a function to call when all processing is finished.
+`cb`: The second argument is a callback to call when processing is finished.
 
 ## Recipes
 
