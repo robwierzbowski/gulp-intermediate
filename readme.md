@@ -54,7 +54,7 @@ Run your commands inside the `process` callback.
 
 ## Recipes
 
-*TODO: Jekyll recipe.*
+For more examples see [recipes.md](https://github.com/robwierzbowski/gulp-intermediate/blob/master/recipes.md).
 
 ## License
 
