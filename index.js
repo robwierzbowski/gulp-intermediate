@@ -51,7 +51,14 @@ module.exports = function (outputDir, process) {
           return cb();
         }
 
-        cb();
+        fs.utimes(tempFilePath, file.stat.atime, file.stat.mtime, function(err)  {
+          if (err) {
+            self.emit('error', new gutil.PluginError('gulp-intermediate', err));
+            return cb();
+          }
+
+          cb();
+        });
       });
     });
   };
