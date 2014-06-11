@@ -17,19 +17,34 @@ var testFiles = [
     cwd: origCWD,
     base: origBase,
     path: path.join(origBase, 'top_level.js'),
-    contents: new Buffer('Hey!')
+    contents: new Buffer('Hey!'),
+    stat: {
+      atime: new Date(2013,2,1,1,10),
+      mtime: new Date(2013,2,1,1,10),
+      ctime: new Date(2013,2,1,1,10)
+    }
   }),
   new File({
     cwd: origCWD,
     base: origBase,
     path: path.join(origBase, 'directory', 'nested.js'),
-    contents: new Buffer('Ho!')
+    contents: new Buffer('Ho!'),
+    stat: {
+      atime: new Date(2013,2,1,1,10),
+      mtime: new Date(2013,2,1,1,10),
+      ctime: new Date(2013,2,1,1,10)
+    }
   }),
   new File({
     cwd: origCWD,
     base: origBase,
     path: path.join(origBase, 'empty.js'),
-    contents: new Buffer('')
+    contents: new Buffer(''),
+    stat: {
+      atime: new Date(2013,2,1,1,10),
+      mtime: new Date(2013,2,1,1,10),
+      ctime: new Date(2013,2,1,1,10)
+    }
   })
 ];
 
@@ -130,3 +145,5 @@ it('streams files from the output directory', function (done) {
   stream.write(testFiles[2]);
   stream.end();
 });
+
+// TODO: Being lazy here, should probably test atime and mtime.
