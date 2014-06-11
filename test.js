@@ -60,7 +60,7 @@ it('copies files to the OS temp directory', function (done) {
 
     finder.on('end', function () {
       var relTestFilePaths = testPaths.map(function (testPath) {
-        return (path.relative(origCWD, testPath));
+        return (path.relative(origBase, testPath));
       });
 
       var relTempFilePaths = tempPaths.map(function (tempPath) {
@@ -74,7 +74,7 @@ it('copies files to the OS temp directory', function (done) {
       );
 
       testFiles.forEach(function (testFile) {
-        var tempPath = path.join(tempDir, path.relative(testFile.cwd, testFile.path));
+        var tempPath = path.join(tempDir, path.relative(testFile.base, testFile.path));
 
         // Temp files have the right contents
         assert.equal(

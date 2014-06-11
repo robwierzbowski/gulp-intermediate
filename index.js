@@ -17,7 +17,7 @@ module.exports = function (outputDir, process) {
 
   transform._transform = function(file, encoding, cb) {
     var self = this;
-    var relativePath = path.relative(file.cwd, file.path);
+    var relativePath = path.relative(file.base, file.path);
     var tempFilePath = path.join(tempDir, relativePath);
     var tempFileBase = path.dirname(tempFilePath);
 
