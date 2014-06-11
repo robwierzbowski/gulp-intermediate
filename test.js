@@ -39,12 +39,7 @@ var testFiles = [
     cwd: origCWD,
     base: origBase,
     path: path.join(origBase, 'empty.js'),
-    contents: new Buffer(''),
-    stat: {
-      atime: new Date(2013,2,1,1,10),
-      mtime: new Date(2013,2,1,1,10),
-      ctime: new Date(2013,2,1,1,10)
-    }
+    contents: new Buffer('')
   })
 ];
 
