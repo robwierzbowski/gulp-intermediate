@@ -67,4 +67,4 @@ For safety, the `customDir` is cleaned before every run.
 
 ## License
 
-MIT © [Rob Wierzbowski](http://robwierzbowski.com)
+[MIT](http://en.wikipedia.org/wiki/MIT_License) © [Rob Wierzbowski](http://robwierzbowski.com)
