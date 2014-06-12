@@ -32,6 +32,8 @@ gulp.task('default', function () {
 });
 ```
 
+For more examples see [recipes.md](https://github.com/robwierzbowski/gulp-intermediate/blob/master/recipes.md).
+
 ## API
 
 ### intermediate(outputDir, process, options)
@@ -62,10 +64,6 @@ Default: random uuid
 By default the intermediate files are processed in a unique, random temporary directory on every run. You can choose a specific directory with the `customDir` option. Its path is relative to the operating system's temporary directory.
 
 For safety, the `customDir` is cleaned before every run. 
- 
-## Recipes
-
-For more examples see [recipes.md](https://github.com/robwierzbowski/gulp-intermediate/blob/master/recipes.md).
 
 ## License
 

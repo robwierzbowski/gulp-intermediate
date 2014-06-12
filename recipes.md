@@ -1,10 +1,12 @@
 # Recipes
 
-## Jekyll
+## Using gulp-intermediate directly
+
+### Jekyll
 
 [Jekyll](http://jekyllrb.com) is a static site builder written in Ruby. It requires access to files on disk in order to run, making it incompatible with streams. [gulp-intermediate](https://github.com/robwierzbowski/gulp-intermediate) allows you to use Jekyll with gulp relatively easily.
 
-### Directory structure
+#### File structure
 
 For this example we're using a [Yeoman](http://yeoman.io)-like directory structure. Config and workflow files live in the root directory, source files live in `app`, and we are compiling our site into `dist`.
 
@@ -34,7 +36,7 @@ For this example we're using a [Yeoman](http://yeoman.io)-like directory structu
 └── npm_modules
 ```
 
-### Gulp task
+#### Task
 
 ```js
 var gulp = require('gulp');
@@ -118,3 +120,9 @@ Write all your layout and template files in [jade](https://github.com/phated/gul
 ```
 
 Or anything else you like with gulp plugins.
+
+## Using gulp-intermediate as part of your own plugin
+
+You can return gulp-intermediate as a through stream in your own plugin. Examples:
+
+- [gulp-ruby-sass fork](https://github.com/robwierzbowski/gulp-ruby-sass/tree/rw/gulp-intermediate)
