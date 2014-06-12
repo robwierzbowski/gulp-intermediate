@@ -61,7 +61,7 @@ Default: random uuid
 
 By default the intermediate files are processed in a unique, random temporary directory on every run. You can choose a specific directory with the `customDir` option. Its path is relative to the operating system's temporary directory.
 
-Note that the operating system is responsible for cleaning up its temporary directory. There's no guarantee how long a `customDir` will be available.
+For safety, the `customDir` is cleaned before every run. 
  
 ## Recipes
 

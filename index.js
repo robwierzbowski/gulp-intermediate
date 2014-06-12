@@ -6,16 +6,21 @@ var uuid = require('uuid');
 var glob = require('glob');
 var gutil = require('gulp-util');
 var mkdirp = require('mkdirp');
+var rimraf = require('rimraf');
 var osTempDir = require('os').tmpdir();
 var Transform = require('stream').Transform;
 
 module.exports = function (outputDir, process, options) {
   options = options || {};
-  options.customDir = options.customDir || uuid.v4();
+  var tempDirName = options.customDir || uuid.v4();
   var transform = new Transform({ objectMode: true });
-  var tempDir = path.join(osTempDir, options.customDir);
+  var tempDir = path.join(osTempDir, tempDirName);
   var origCWD;
   var origBase;
+
+  if (options.customDir) {
+    rimraf.sync(tempDir);
+  }
 
   transform._transform = function(file, encoding, cb) {
     var self = this;
