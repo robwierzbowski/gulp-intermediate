@@ -95,6 +95,40 @@ it('copies files to the OS temp directory', function (done) {
   stream.end();
 });
 
+it('copies files to a custom OS temp directory', function (done) {
+  var customDir = 'persist';
+
+  var testProcess = function (tempDir, cb) {
+    var testPaths = _.pluck(testFiles, 'path');
+    var tempPaths = [];
+    var finder = findit(tempDir);
+
+    finder.on('file', function (filePath) {
+      tempPaths.push(filePath);
+    });
+
+    finder.on('end', function () {
+      tempPaths.forEach(function (tempPath) {
+         assert.notEqual(tempPath.indexOf(customDir), -1);
+      });
+
+      cb();
+    });
+  };
+
+  var stream = intermediate(outputDir, testProcess, { customDir: customDir});
+
+  stream.on('end', function () {
+    done();
+  });
+
+  stream.write(testFiles[0]);
+  stream.write(testFiles[1]);
+  stream.write(testFiles[2]);
+  stream.resume();
+  stream.end();
+});
+
 it('streams files from the output directory', function (done) {
   var genFiles = [
     { path: 'puhoy.js', contents: 'Generated!' },
