@@ -34,7 +34,7 @@ gulp.task('default', function () {
 
 ## API
 
-### intermediate(outputDir, process)
+### intermediate(outputDir, process, options)
 
 #### outputDir
 
@@ -48,10 +48,21 @@ Type: `function`
 
 Run your commands inside the `process` callback.
 
-`tempDir`: The first argument is a path to the directory that contains your temporary files. If using `spawn` you may want to set the `cwd` option to this directory.
+`tempDir`: The first argument is the absolute path to the directory that contains your temporary files. If using `spawn` you may want to set the `cwd` option to `tempDir`.
 
 `cb`: The second argument is a callback to call when processing is finished.
 
+#### options
+
+##### customDir
+
+Type: `string`  
+Default: random uuid
+
+By default the intermediate files are processed in a unique, random temporary directory on every run. You can choose a specific directory with the `customDir` option. Its path is relative to the operating system's temporary directory.
+
+Note that the operating system is responsible for cleaning up its temporary directory. There's no guarantee how long a `customDir` will be available.
+ 
 ## Recipes
 
 For more examples see [recipes.md](https://github.com/robwierzbowski/gulp-intermediate/blob/master/recipes.md).

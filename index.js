@@ -9,9 +9,11 @@ var mkdirp = require('mkdirp');
 var osTempDir = require('os').tmpdir();
 var Transform = require('stream').Transform;
 
-module.exports = function (outputDir, process) {
+module.exports = function (outputDir, process, options) {
+  options = options || {};
+  options.customDir = options.customDir || uuid.v4();
   var transform = new Transform({ objectMode: true });
-  var tempDir = path.join(osTempDir, uuid.v4());
+  var tempDir = path.join(osTempDir, options.customDir);
   var origCWD;
   var origBase;
 
