@@ -1,6 +1,6 @@
 {
   "name": "gulp-intermediate",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Use gulp with tools that require files on disk.",
   "license": "MIT",
   "repository": "robwierzbowski/gulp-intermediate",
