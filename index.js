@@ -10,15 +10,16 @@ var rimraf = require('rimraf');
 var osTempDir = require('os').tmpdir();
 var Transform = require('stream').Transform;
 
-module.exports = function (outputDir, process, options) {
+module.exports = function (options, process) {
   options = options || {};
-  var tempDirName = options.customDir || uuid.v4();
+  var outputDir = options.output || '.';
+  var container = options.container || uuid.v4();
   var transform = new Transform({ objectMode: true });
-  var tempDir = path.join(osTempDir, tempDirName);
+  var tempDir = path.join(osTempDir, container);
   var origCWD;
   var origBase;
 
-  if (options.customDir) {
+  if (options.container) {
     rimraf.sync(tempDir);
   }
 

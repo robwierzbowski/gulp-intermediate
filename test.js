@@ -82,7 +82,7 @@ it('copies files to the OS temp directory', function (done) {
     });
   };
 
-  var stream = intermediate(outputDir, testProcess);
+  var stream = intermediate({output: outputDir}, testProcess);
 
   stream.on('end', function () {
     done();
@@ -96,7 +96,7 @@ it('copies files to the OS temp directory', function (done) {
 });
 
 it('copies files to a custom OS temp directory', function (done) {
-  var customDir = 'persist';
+  var container = 'persistent-directory';
 
   var testProcess = function (tempDir, cb) {
     var testPaths = _.pluck(testFiles, 'path');
@@ -109,14 +109,14 @@ it('copies files to a custom OS temp directory', function (done) {
 
     finder.on('end', function () {
       tempPaths.forEach(function (tempPath) {
-         assert.notEqual(tempPath.indexOf(customDir), -1);
+         assert.notEqual(tempPath.indexOf(container), -1);
       });
 
       cb();
     });
   };
 
-  var stream = intermediate(outputDir, testProcess, { customDir: customDir});
+  var stream = intermediate({output: outputDir, container: container}, testProcess);
 
   stream.on('end', function () {
     done();
@@ -147,7 +147,7 @@ it('streams files from the output directory', function (done) {
     cb();
   };
 
-  var stream = intermediate(outputDir, testProcess);
+  var stream = intermediate({output: outputDir}, testProcess);
 
   stream.on('data', function (file) {
     var genFile = _.findWhere(

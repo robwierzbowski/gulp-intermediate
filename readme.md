@@ -21,10 +21,9 @@ var intermediate = require('gulp-intermediate');
 
 gulp.task('default', function () {
   return gulp.src('app/**/*.jade')
-    .pipe(intermediate('_site', function (tempDir, cb) {
-
-      // Run a command on the file system in tempDir and write the results to
-      // the specified outputDir.
+    .pipe(intermediate({ output: '_site' }, function (tempDir, cb) {
+      // Run a command on the files in tempDir and write the results to
+      // the specified output directory.
       var command = spawn('a_command', ['--dest', '_site'], {cwd: tempDir});
       command.on('close', cb);
     }))
@@ -36,34 +35,36 @@ For more examples see [recipes.md](https://github.com/robwierzbowski/gulp-interm
 
 ## API
 
-### intermediate(outputDir, process, options)
-
-#### outputDir
-
-Type: `string`  
-
-The plugin reads files back into the stream from this directory when processing is finished. Relative to `tempDir`.
-
-#### process(tempDir, cb)
-
-Type: `function`  
-
-Run your commands inside the `process` callback.
-
-`tempDir`: The first argument is the absolute path to the directory that contains your temporary files. If using `spawn` you may want to set the `cwd` option to `tempDir`.
-
-`cb`: The second argument is a callback to call when processing is finished.
+### intermediate(options, process)
 
 #### options
 
-##### customDir
+##### output
+
+Type: `string`  
+Default: `'.'`
+
+The directory read back into the stream when processing is finished. Relative to `tempDir`.
+
+##### container
 
 Type: `string`  
 Default: random uuid
 
-By default the intermediate files are processed in a unique, random temporary directory on every run. You can choose a specific directory with the `customDir` option. Its path is relative to the operating system's temporary directory.
+The directory that files are written to, relative to the operating system's temporary directry. Defaults to a unique random directory on every run.
 
-For safety, the `customDir` is cleaned before every run. 
+The container is emptied before every run. 
+
+#### process(tempDir, cb)
+
+Type: `function`  
+Required  
+
+Run your commands inside the `process` callback.
+
+`tempDir`: The first argument is the absolute path to your temporary files (the combination of the OS's temp directory and `container`). If using `spawn` you may want to set the `cwd` option to `tempDir`.
+
+`cb`: The second argument is a callback. Call it when processing is finished.
 
 ## License
 
