@@ -58,7 +58,7 @@ gulp.task('html', function () {
   
   // Pipe to intermediate. Set the outputDir to the directory we're compiling
   // Jekyll to.
-  .pipe(plug.intermediate('_site', function(tempDir, cb) {
+  .pipe(plug.intermediate({ output: '_site', container: 'spawn-jekyll' }, function(tempDir, cb) {
     
     // Add some pretty logging.
     gutil.log('Running \'' + gutil.colors.cyan('jekyll') + '\'...');
@@ -103,7 +103,7 @@ Write all your layout and template files in [jade](https://github.com/phated/gul
     'Gemfile'
   ])
   .pipe(jade({ pretty: true }))
-  .pipe(plug.intermediate('_site', function(tempDir, cb) { ... }))
+  .pipe(plug.intermediate({ output: '_site', container: 'spawn-jekyll' }, function(tempDir, cb) { ... }))
   .pipe(gulp.dest('dist/'));
 ```
 
@@ -114,7 +114,7 @@ Write all your layout and template files in [jade](https://github.com/phated/gul
     'app/**/*.{html,md,yml}',
     'Gemfile'
   ])
-  .pipe(plug.intermediate('_site', function(tempDir, cb) { ... }))
+  .pipe(plug.intermediate({ output: '_site', container: 'spawn-jekyll' }, function(tempDir, cb) { ... }))
   .pipe(htmlmin({ collapseWhitespace: true }))
   .pipe(gulp.dest('dist/'));
 ```
