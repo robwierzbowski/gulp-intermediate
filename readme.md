@@ -2,9 +2,9 @@
 
 > Use gulp with tools that require files on disk.
 
-Some tools require access to files on disk instead of working with `stdin` and `stdout` (e.g., [Jekyll](http://jekyllrb.com/), [Ruby Sass](http://sass-lang.com/)). `gulp-intermediate` is a convenience plugin that writes the current stream to a temporary directory, lets you run commands on the file system, and pushes the results back into the gulp stream.
+Some tools require access to files on disk instead of working with `stdin` and `stdout` (e.g., [Jekyll](http://jekyllrb.com/), [Ruby Sass](http://sass-lang.com/)). `gulp-intermediate` is a convenience plugin that writes the current stream to a temporary directory, lets you run commands on the file system, and pushes the results back into the pipe.
 
-**NOTE:** Writing intermediate files to disk is counter to the gulp philosophy. If possible, use a tool or plugin that works with streams. Use gulp-intermediate only if other (better) options aren't available.
+**NOTE:** Writing intermediate files to disk is counter to the gulp philosophy. If possible, use a tool that works with streams. Use gulp-intermediate only if other (better) options aren't available.
 
 ## Install
 
