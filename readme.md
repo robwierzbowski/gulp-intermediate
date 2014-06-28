@@ -55,16 +55,18 @@ The directory that files are written to, relative to the operating system's temp
 
 The container is emptied before every run. 
 
-#### process(tempDir, cb)
+#### process(tempDir, cb, [fileProps])
 
 Type: `function`  
 Required  
 
-Run your commands inside the `process` callback.
+Run your commands inside the `process` callback. `process` comes with three arguments:
 
-`tempDir`: The first argument is the absolute path to your temporary files (the combination of the OS's temp directory and `container`). If using `spawn` you may want to set the `cwd` option to `tempDir`.
-
-`cb`: The second argument is a callback. Call it when processing is finished.
+- `tempDir`: The absolute path to the directory containing your temporary files. If using `spawn` you may want to set the `cwd` option to `tempDir`.
+- `cb`: A callback function to call when the processing is finished. It pushes the output files back into the gulp stream.
+- `fileProps`: An object with information about the files that have been written to the temp directory.
+    - `fileProps.base`: The original vinyl base directory.
+    - `fileProps.cwd`: The original vinyl CWD.
 
 ## License
 

@@ -175,4 +175,25 @@ it('streams files from the output directory', function (done) {
   stream.end();
 });
 
+it('exposes vinyl base and cwd information to the process callback', function (done) {
+  var testProcess = function (tempDir, cb, fileProps) {
+    assert.equal(fileProps.base, origBase);
+    assert.equal(fileProps.cwd, origCWD);
+
+    cb();
+  };
+
+  var stream = intermediate({output: outputDir}, testProcess);
+
+  stream.on('end', function () {
+    done();
+  });
+
+  stream.write(testFiles[0]);
+  stream.write(testFiles[1]);
+  stream.write(testFiles[2]);
+  stream.resume();
+  stream.end();
+});
+
 // TODO: Being lazy here, should probably test atime and mtime.
