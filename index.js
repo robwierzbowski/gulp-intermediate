@@ -102,7 +102,7 @@ module.exports = function (options, process) {
 
         cb();
       });
-    }, { base: origBase, cwd: origCWD });
+    }, { cwd: origCWD });
   };
 
   return transform;

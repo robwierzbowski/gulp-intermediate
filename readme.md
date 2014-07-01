@@ -64,8 +64,7 @@ Run your commands inside the `process` callback. `process` comes with three argu
 
 - `tempDir`: The absolute path to the directory containing your temporary files. If using `spawn` you may want to set the `cwd` option to `tempDir`.
 - `cb`: A callback function to call when the processing is finished. It pushes the output files back into the gulp stream.
-- `fileProps`: An object with information about the files that have been written to the temp directory.
-    - `fileProps.base`: The original vinyl base directory.
+- `fileProps`: An object with some information about the files that have been written to the temp directory.
     - `fileProps.cwd`: The original vinyl CWD.
 
 ## License

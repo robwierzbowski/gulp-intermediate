@@ -175,11 +175,9 @@ it('streams files from the output directory', function (done) {
   stream.end();
 });
 
-it('exposes vinyl base and cwd information to the process callback', function (done) {
+it('exposes vinyl cwd information to the process callback', function (done) {
   var testProcess = function (tempDir, cb, fileProps) {
-    assert.equal(fileProps.base, origBase);
     assert.equal(fileProps.cwd, origCWD);
-
     cb();
   };
 
