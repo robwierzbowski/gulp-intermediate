@@ -67,6 +67,12 @@ Run your commands inside the `process` callback. `process` comes with three argu
 - `fileProps`: An object with some information about the files that have been written to the temp directory.
     - `fileProps.cwd`: The original vinyl CWD.
 
+#### Notes
+
+The files are written to `tempDir` using the vinyl file object's relative path, just like `gulp.dest()` writes to the output directory. Make sure you understand how globbing works to avoid unexpected errors: for example, the files in `gulp.src(['files/*.json', config.yml])` will all be output at the root of `tempDir`. 
+
+Consider passing the [`{ base: '.' }` option to `glob.src`](https://github.com/wearefractal/glob-stream#options) if you need to output a src glob as it exists on disk. When in doubt, log `tempDir` to the console and open it to see what's going on.
+
 ## License
 
 [MIT](http://en.wikipedia.org/wiki/MIT_License) © [Rob Wierzbowski](http://robwierzbowski.com)
