@@ -194,4 +194,26 @@ it('exposes vinyl cwd information to the process callback', function (done) {
   stream.end();
 });
 
+it('emits an error passed to the callback', function (done) {
+  var errMessage = 'you\'ve gone crazy mad with power lust';
+
+  var testProcess = function (tempDir, cb, fileProps) {
+    cb(errMessage);
+  };
+
+  var stream = intermediate({output: outputDir}, testProcess);
+
+  stream.on('end', function () {
+    done();
+  });
+
+  stream.on('error', function (err) {
+    assert.equal(err.message, errMessage);
+  });
+
+  stream.write(testFiles[2]);
+  stream.resume();
+  stream.end();
+});
+
 // TODO: Being lazy here, should probably test atime and mtime.

@@ -78,7 +78,12 @@ module.exports = function (options, process) {
   transform._flush = function(cb) {
     var self = this;
 
-    process(tempDir, function() {
+    process(tempDir, function(err) {
+      if (err) {
+        self.emit('error', new gutil.PluginError('gulp-intermediate', err));
+        return cb();
+      }
+
       glob('**/*', { cwd: path.join(tempDir, outputDir) }, function (err, files) {
         if (err) {
           self.emit('error', new gutil.PluginError('gulp-intermediate', err));
