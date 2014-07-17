@@ -16,6 +16,7 @@ module.exports = function (options, process) {
   var container = options.container || uuid.v4();
   var transform = new Transform({ objectMode: true });
   var tempDir = path.join(osTempDir, container);
+  var vinylFiles = [];
   var origCWD;
   var origBase;
 
@@ -45,6 +46,8 @@ module.exports = function (options, process) {
       this.emit('error', new gutil.PluginError('gulp-intermediate', 'Streaming not supported'));
       return cb();
     }
+
+    vinylFiles.push(file);
 
     mkdirp(tempFileBase, function (err) {
       if (err) {
@@ -106,7 +109,7 @@ module.exports = function (options, process) {
 
         cb();
       });
-    }, { cwd: origCWD });
+    }, vinylFiles);
   };
 
   return transform;
