@@ -17,8 +17,6 @@ module.exports = function (options, process) {
   var transform = new Transform({ objectMode: true });
   var tempDir = path.join(osTempDir, container);
   var vinylFiles = [];
-  var origCWD;
-  var origBase;
 
   if (options.container) {
     rimraf.sync(tempDir);
@@ -28,14 +26,6 @@ module.exports = function (options, process) {
     var self = this;
     var tempFilePath = path.join(tempDir, file.relative);
     var tempFileBase = path.dirname(tempFilePath);
-
-    if (!origCWD) {
-      origCWD = file.cwd;
-    }
-
-    if (!origBase) {
-      origBase = file.base;
-    }
 
     if (file.isNull()) {
       this.push(file);
@@ -87,22 +77,24 @@ module.exports = function (options, process) {
         return cb();
       }
 
-      glob('**/*', { cwd: path.join(tempDir, outputDir) }, function (err, files) {
+      var base = path.join(tempDir, outputDir);
+
+      glob('**/*', { cwd: base }, function (err, files) {
         if (err) {
           self.emit('error', new gutil.PluginError('gulp-intermediate', err));
           return cb();
         }
 
         files.forEach(function (file) {
-          var realPath = path.join(tempDir, outputDir, file);
+          var filePath = path.join(base, file);
 
           // TODO: Can we make readFile async?
-          if (fs.statSync(realPath).isFile()) {
+          if (fs.statSync(filePath).isFile()) {
             self.push( new gutil.File({
-              cwd: origCWD,
-              base: origBase,
-              path: path.join(origBase, file),
-              contents: new Buffer(fs.readFileSync(realPath))
+              cwd: base,
+              base: base,
+              path: path.join(base, file),
+              contents: new Buffer(fs.readFileSync(filePath))
             }));
           }
         });
