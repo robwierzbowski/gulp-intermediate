@@ -71,6 +71,10 @@ module.exports = function (options, process) {
   transform._flush = function(cb) {
     var self = this;
 
+    if (vinylFiles.length === 0) {
+      return cb();
+    }
+
     process(tempDir, function(err) {
       if (err) {
         self.emit('error', new gutil.PluginError('gulp-intermediate', err));
