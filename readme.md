@@ -51,9 +51,16 @@ The directory read back into the stream when processing is finished. Relative to
 Type: `string`  
 Default: random uuid
 
-The directory that files are written to, relative to the operating system's temporary directry. Defaults to a unique random directory on every run.
+The directory that files are written to within tempDir. Defaults to a unique random directory on every run.
 
-The container is emptied before every run. 
+The container is emptied before every run.
+
+##### tempDir
+
+Type: `string`
+Default: OS default temp directory
+
+The directory to create container in. Defaults to the default temp directory for your OS.
 
 #### process(tempDir, cb, [fileProps])
 
