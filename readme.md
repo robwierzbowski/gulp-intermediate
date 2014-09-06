@@ -67,6 +67,13 @@ Run your commands inside the `process` callback. `process` comes with three argu
 - `fileProps`: An object with some information about the files that have been written to the temp directory.
     - `fileProps.cwd`: The original vinyl CWD.
 
+#### streams
+
+Type: 'object'  
+Default: {}
+
+A mapping of globs to functions of the form `function(stream) {}`. This callback accepts a vinylFS stream which can be piped. This allow different output formats to be redirected to alternate pipelines.
+
 #### Notes
 
 The files are written to `tempDir` using the vinyl file object's relative path, just like `gulp.dest()` writes to the output directory. Make sure you understand how globbing works to avoid unexpected errors: for example, the files in `gulp.src(['files/*.json', config.yml])` will all be output at the root of `tempDir`. 
