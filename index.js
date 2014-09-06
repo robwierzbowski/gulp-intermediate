@@ -9,6 +9,7 @@ var mkdirp = require('mkdirp');
 var rimraf = require('rimraf');
 var osTempDir = require('os').tmpdir();
 var Transform = require('stream').Transform;
+var vfs = require('vinyl-fs');
 
 module.exports = function (options, process) {
   options = options || {};
@@ -21,6 +22,10 @@ module.exports = function (options, process) {
   if (options.container) {
     rimraf.sync(tempDir);
   }
+
+	if(typeof options.streams != 'object') {
+		options.streams = {};
+	}
 
   transform._transform = function(file, encoding, cb) {
     var self = this;
@@ -74,37 +79,64 @@ module.exports = function (options, process) {
     if (vinylFiles.length === 0) {
       return cb();
     }
-
     process(tempDir, function(err) {
       if (err) {
         self.emit('error', new gutil.PluginError('gulp-intermediate', err));
         return cb();
       }
 
-      var base = path.join(tempDir, outputDir);
+      var
+				base = path.join(tempDir, outputDir),
+				globs = Object.keys(options.streams),
+				matchedFiles = [];
 
-      glob('**/*', { cwd: base }, function (err, files) {
-        if (err) {
-          self.emit('error', new gutil.PluginError('gulp-intermediate', err));
-          return cb();
-        }
+			globs.push('**/*');
 
-        files.forEach(function (file) {
-          var filePath = path.join(base, file);
+			function nextGlob() {
+				var thisGlob = globs.shift(), streamcb = options.streams[thisGlob], theseFiles = [];
 
-          // TODO: Can we make readFile async?
-          if (fs.statSync(filePath).isFile()) {
-            self.push( new gutil.File({
-              cwd: base,
-              base: base,
-              path: path.join(base, file),
-              contents: new Buffer(fs.readFileSync(filePath))
-            }));
-          }
-        });
+				if(!thisGlob) {
+					return cb();
+				}
 
-        cb();
-      });
+				glob(thisGlob, { cwd: base }, function (err, files) {
+					if (err) {
+						self.emit('error', new gutil.PluginError('gulp-intermediate', err));
+						return cb();
+					}
+
+					files.forEach(function (file) {
+						if(matchedFiles.indexOf(file) == -1) {
+							theseFiles.push(file);
+						}
+					});
+
+					matchedFiles = matchedFiles.concat(theseFiles);
+
+					if(streamcb) {
+						streamcb(vfs.src(thisGlob, { cwd: base }));
+					}
+					else {
+						theseFiles.forEach(function (file) {
+							var filePath = path.join(base, file);
+
+							// TODO: Can we make readFile async?
+							if (fs.statSync(filePath).isFile()) {
+								self.push( new gutil.File({
+									cwd: base,
+									base: base,
+									path: filePath,
+									contents: new Buffer(fs.readFileSync(filePath))
+								}));
+							}
+						});
+					}
+
+					nextGlob();
+				});
+      }
+
+			nextGlob();
     }, vinylFiles);
   };
 
