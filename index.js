@@ -23,9 +23,9 @@ module.exports = function (options, process) {
     rimraf.sync(tempDir);
   }
 
-	if(typeof options.streams != 'object') {
-		options.streams = {};
-	}
+  if(typeof options.streams != 'object') {
+    options.streams = {};
+  }
 
   transform._transform = function(file, encoding, cb) {
     var self = this;
@@ -86,57 +86,57 @@ module.exports = function (options, process) {
       }
 
       var
-				base = path.join(tempDir, outputDir),
-				globs = Object.keys(options.streams),
-				matchedFiles = [];
+        base = path.join(tempDir, outputDir),
+        globs = Object.keys(options.streams),
+        matchedFiles = [];
 
-			globs.push('**/*');
+      globs.push('**/*');
 
-			function nextGlob() {
-				var thisGlob = globs.shift(), streamcb = options.streams[thisGlob], theseFiles = [];
+      function nextGlob() {
+        var thisGlob = globs.shift(), streamcb = options.streams[thisGlob], theseFiles = [];
 
-				if(!thisGlob) {
-					return cb();
-				}
+        if(!thisGlob) {
+          return cb();
+        }
 
-				glob(thisGlob, { cwd: base }, function (err, files) {
-					if (err) {
-						self.emit('error', new gutil.PluginError('gulp-intermediate', err));
-						return cb();
-					}
+        glob(thisGlob, { cwd: base }, function (err, files) {
+          if (err) {
+            self.emit('error', new gutil.PluginError('gulp-intermediate', err));
+            return cb();
+          }
 
-					files.forEach(function (file) {
-						if(matchedFiles.indexOf(file) == -1) {
-							theseFiles.push(file);
-						}
-					});
+          files.forEach(function (file) {
+            if(matchedFiles.indexOf(file) == -1) {
+              theseFiles.push(file);
+            }
+          });
 
-					matchedFiles = matchedFiles.concat(theseFiles);
+          matchedFiles = matchedFiles.concat(theseFiles);
 
-					if(streamcb) {
-						streamcb(vfs.src(thisGlob, { cwd: base }));
-					}
-					else {
-						theseFiles.forEach(function (file) {
-							var filePath = path.join(base, file);
+          if(streamcb) {
+            streamcb(vfs.src(thisGlob, { cwd: base }));
+          }
+          else {
+            theseFiles.forEach(function (file) {
+              var filePath = path.join(base, file);
 
-							// TODO: Can we make readFile async?
-							if (fs.statSync(filePath).isFile()) {
-								self.push( new gutil.File({
-									cwd: base,
-									base: base,
-									path: filePath,
-									contents: new Buffer(fs.readFileSync(filePath))
-								}));
-							}
-						});
-					}
+              // TODO: Can we make readFile async?
+              if (fs.statSync(filePath).isFile()) {
+                self.push( new gutil.File({
+                  cwd: base,
+                  base: base,
+                  path: filePath,
+                  contents: new Buffer(fs.readFileSync(filePath))
+                }));
+              }
+            });
+          }
 
-					nextGlob();
-				});
+          nextGlob();
+        });
       }
 
-			nextGlob();
+      nextGlob();
     }, vinylFiles);
   };
 
