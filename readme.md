@@ -2,6 +2,12 @@
 
 > A gulp helper for tools that need files on disk.
 
+## Deprecated
+
+I won't be working on this any more. From my experience there are better ways to solve this on a per project basis. If you find this code useful feel free to ping me and I'll hand the repo over to you.
+
+- - - - - - - 
+
 Some tools require access to files on disk instead of working with `stdin` and `stdout` (e.g., [Jekyll](http://jekyllrb.com/), [Ruby Sass](http://sass-lang.com/)). `gulp-intermediate` is a convenience plugin that writes the current stream to a temporary directory, lets you run commands on the file system, and pushes the results back into the pipe.
 
 **NOTE:** Writing intermediate files to disk is counter to the gulp philosophy. If possible, use a tool that works with streams. Use gulp-intermediate only if other (better) options aren't available.
