@@ -2,6 +2,40 @@
 
 ## Using gulp-intermediate directly
 
+### Simplest
+
+Without any arguments [gulp-intermediate](https://github.com/robwierzbowski/gulp-intermediate) will write files to disk using the relative paths and provide you a stream of the resulting files.
+
+```js
+var gulp = require('gulp');
+var unzip = require('gulp-unzip');
+var intermediate = require('gulp-intermediate');
+
+gulp.src('myfile.zip')
+  .pipe(unzip())
+  .pipe(intermediate())
+  .pipe(/* whatever */);
+```
+
+### Compositing Streams
+
+If you have a writable stream that requires files on disk, but you don't control the `.pipe()` calls (like if you're building your own tool), you can build a composited stream using [lazypipe](https://www.npmjs.com/package/lazypipe).
+
+```js
+var gulp = require('gulp');
+var lazypipe = require('lazypipe');
+var intermediate = require('gulp-intermediate');
+
+var buildWritableStream = function(arg1, arg2, arg3) {...};
+
+var buildStream = function(arg1, arg2, arg3) {
+  // Note how the stream builders are *not* called.
+  return lazypipe()
+    .pipe(intermediate)
+    .pipe(buildWritableStream, arg1, arg2, arg3);
+};
+``` 
+
 ### Jekyll
 
 [Jekyll](http://jekyllrb.com) is a static site builder written in Ruby. It requires access to files on disk in order to run, making it incompatible with streams. [gulp-intermediate](https://github.com/robwierzbowski/gulp-intermediate) allows you to use Jekyll with gulp relatively easily.

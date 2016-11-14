@@ -41,9 +41,12 @@ For more examples see [recipes.md](https://github.com/robwierzbowski/gulp-interm
 
 ## API
 
-### intermediate(options, process)
+### intermediate([options], [process])
 
 #### options
+
+Type: `object`  
+Optional
 
 ##### output
 
@@ -64,7 +67,7 @@ The container is emptied before every run.
 #### process(tempDir, cb, [fileProps])
 
 Type: `function`  
-Required  
+Optional  
 
 Run your commands inside the `process` callback. `process` comes with three arguments:
 

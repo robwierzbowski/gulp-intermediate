@@ -10,8 +10,17 @@ var rimraf = require('rimraf');
 var osTempDir = require('os').tmpdir();
 var Transform = require('stream').Transform;
 
+var noopProcess = function(tempDir, callback) { callback(); };
+
 module.exports = function (options, process) {
+  if (typeof options === 'function') {
+    process = options;
+    options = {};
+  }
+
   options = options || {};
+  process = process || noopProcess;
+
   var outputDir = options.output || '.';
   var container = options.container || uuid.v4();
   var transform = new Transform({ objectMode: true });
