@@ -24,7 +24,8 @@ module.exports = function (options, process) {
   var outputDir = options.output || '.';
   var container = options.container || uuid.v4();
   var transform = new Transform({ objectMode: true });
-  var tempDir = path.join(osTempDir, container);
+  var tempBase = options.tempDir || osTempDir;
+  var tempDir = path.join(tempBase, container);
   var vinylFiles = [];
 
   if (options.container) {
