@@ -3,7 +3,7 @@
 var _ = require('underscore');
 var fs = require('fs');
 var path = require('path');
-var File = require('gulp-util').File;
+var Vinyl = require('vinyl');
 var findit = require('findit');
 var assert = require('assert');
 var mkdirp = require('mkdirp');
@@ -13,7 +13,7 @@ var outputDir = '_output';
 var cwd = __dirname;
 var base = path.join(cwd, 'test');
 var testFiles = [
-  new File({
+  new Vinyl({
     cwd: cwd,
     base: base,
     path: path.join(base, 'top_level.js'),
@@ -24,7 +24,7 @@ var testFiles = [
       ctime: new Date(2013,2,1,1,10)
     }
   }),
-  new File({
+  new Vinyl({
     cwd: cwd,
     base: base,
     path: path.join(base, 'directory', 'nested.js'),
@@ -35,7 +35,7 @@ var testFiles = [
       ctime: new Date(2013,2,1,1,10)
     }
   }),
-  new File({
+  new Vinyl({
     cwd: cwd,
     base: base,
     path: path.join(base, 'empty.js'),
@@ -130,19 +130,19 @@ it('copies files to a custom OS temp directory', function (done) {
 
 it('streams files from the output directory', function (done) {
   var processedFiles = [
-    new File ({
+    new Vinyl({
       cwd: cwd,
       base: base,
       path: path.join(base, 'puhoy.js'),
       contents: new Buffer('Generated!')
     }),
-    new File ({
+    new Vinyl({
       cwd: cwd,
       base: base,
       path: path.join(base, 'time_room/prismo.js'),
       contents: new Buffer('Re-generated!')
     }),
-    new File ({
+    new Vinyl({
       cwd: cwd,
       base: base,
       path: path.join(base, 'glob_world/GOLB.js'),

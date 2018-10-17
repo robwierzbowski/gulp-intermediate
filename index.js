@@ -4,11 +4,12 @@ var fs = require('fs');
 var path = require('path');
 var uuid = require('uuid');
 var glob = require('glob');
-var gutil = require('gulp-util');
+var Vinyl = require('vinyl');
 var mkdirp = require('mkdirp');
 var rimraf = require('rimraf');
 var osTempDir = require('os').tmpdir();
 var Transform = require('stream').Transform;
+var PluginError = require('plugin-error');
 
 var noopProcess = function(tempDir, callback) { callback(); };
 
@@ -42,7 +43,7 @@ module.exports = function (options, process) {
     }
 
     if (file.isStream()) {
-      this.emit('error', new gutil.PluginError('gulp-intermediate', 'Streaming not supported'));
+      this.emit('error', new PluginError('gulp-intermediate', 'Streaming not supported'));
       return cb();
     }
 
@@ -50,20 +51,20 @@ module.exports = function (options, process) {
 
     mkdirp(tempFileBase, function (err) {
       if (err) {
-        self.emit('error', new gutil.PluginError('gulp-intermediate', err));
+        self.emit('error', new PluginError('gulp-intermediate', err));
         return cb();
       }
 
       fs.writeFile(tempFilePath, file.contents, function(err)  {
         if (err) {
-          self.emit('error', new gutil.PluginError('gulp-intermediate', err));
+          self.emit('error', new PluginError('gulp-intermediate', err));
           return cb();
         }
 
         if (file.stat && file.stat.atime && file.stat.mtime) {
           fs.utimes(tempFilePath, file.stat.atime, file.stat.mtime, function(err)  {
             if (err) {
-              self.emit('error', new gutil.PluginError('gulp-intermediate', err));
+              self.emit('error', new PluginError('gulp-intermediate', err));
               return cb();
             }
 
@@ -86,7 +87,7 @@ module.exports = function (options, process) {
 
     process(tempDir, function(err) {
       if (err) {
-        self.emit('error', new gutil.PluginError('gulp-intermediate', err));
+        self.emit('error', new PluginError('gulp-intermediate', err));
         return cb();
       }
 
@@ -94,7 +95,7 @@ module.exports = function (options, process) {
 
       glob('**/*', { cwd: base }, function (err, files) {
         if (err) {
-          self.emit('error', new gutil.PluginError('gulp-intermediate', err));
+          self.emit('error', new PluginError('gulp-intermediate', err));
           return cb();
         }
 
@@ -103,7 +104,7 @@ module.exports = function (options, process) {
 
           // TODO: Can we make readFile async?
           if (fs.statSync(filePath).isFile()) {
-            self.push( new gutil.File({
+            self.push( new Vinyl({
               cwd: base,
               base: base,
               path: path.join(base, file),
