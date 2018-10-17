@@ -1,14 +1,8 @@
-# gulp-intermediate [![status](https://api.travis-ci.org/robwierzbowski/gulp-intermediate.svg)](https://travis-ci.org/robwierzbowski/gulp-intermediate)&nbsp;[![dependencies](https://david-dm.org/robwierzbowski/gulp-intermediate.svg)](https://david-dm.org/robwierzbowski/gulp-intermediate)
+# gulp-intermediate [![status](https://api.travis-ci.org/robwierzbowski/gulp-intermediate.svg)](https://travis-ci.org/robwierzbowski/gulp-intermediate)&nbsp;[![Coverage Status](https://coveralls.io/repos/github/robwierzbowski/gulp-intermediate/badge.svg)](https://coveralls.io/github/robwierzbowski/gulp-intermediate)&nbsp;[![dependencies](https://david-dm.org/robwierzbowski/gulp-intermediate.svg)](https://david-dm.org/robwierzbowski/gulp-intermediate)
 
 > A gulp helper for tools that need files on disk.
 
-## Deprecated
-
-I won't be working on this any more. From my experience there are better ways to solve this on a per project basis. If you find this code useful feel free to ping me and I'll hand the repo over to you.
-
-- - - - - - - 
-
-Some tools require access to files on disk instead of working with `stdin` and `stdout` (e.g., [Jekyll](http://jekyllrb.com/), [Ruby Sass](http://sass-lang.com/)). `gulp-intermediate` is a convenience plugin that writes the current stream to a temporary directory, lets you run commands on the file system, and pushes the results back into the pipe.
+Some tools require access to files on disk instead of working with `stdin` and `stdout` (e.g., [Jekyll](http://jekyllrb.com/), [Ruby Sass](http://sass-lang.com/)). `gulp-intermediate` is a convenience plugin that writes the current vinyl stream to a temporary directory, lets you run commands on the file system, and pushes the results back into the pipe.
 
 **NOTE:** Writing intermediate files to disk is counter to the gulp philosophy. If possible, use a tool that works with streams. Use gulp-intermediate only if other (better) options aren't available.
 
@@ -50,7 +44,7 @@ Optional
 
 ##### output
 
-Type: `string`  
+Type: `string`
 Default: `'.'`
 
 The directory read back into the stream when processing is finished. Relative to `tempDir`.
@@ -62,7 +56,7 @@ Default: random uuid
 
 The directory that files are written to, relative to the operating system's temporary directry. Defaults to a unique random directory on every run.
 
-The container is emptied before every run. 
+The container is emptied before every run.
 
 #### process(tempDir, cb, [fileProps])
 
@@ -78,7 +72,7 @@ Run your commands inside the `process` callback. `process` comes with three argu
 
 #### Notes
 
-The files are written to `tempDir` using the vinyl file object's relative path, just like `gulp.dest()` writes to the output directory. Make sure you understand how globbing works to avoid unexpected errors: for example, the files in `gulp.src(['files/*.json', config.yml])` will all be output at the root of `tempDir`. 
+The files are written to `tempDir` using the vinyl file object's relative path, just like `gulp.dest()` writes to the output directory. Make sure you understand how globbing works to avoid unexpected errors: for example, the files in `gulp.src(['files/*.json', config.yml])` will all be output at the root of `tempDir`.
 
 Consider passing the [`{ base: '.' }` option to `glob.src`](https://github.com/wearefractal/glob-stream#options) if you need to output a src glob as it exists on disk. When in doubt, log `tempDir` to the console and open it to see what's going on.
 
