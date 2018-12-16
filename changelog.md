@@ -10,4 +10,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Support for gulp v4 (eliminate uses of old gulp util)
 
-[4.0.0]: https://github.com/robwierzbowski/gulp-intermediate/compare/3.0.1...HEAD
+[Unreleased]: https://github.com/robwierzbowski/gulp-intermediate/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/robwierzbowski/gulp-intermediate/compare/3.0.1...v4.0.0
