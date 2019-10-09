@@ -108,7 +108,7 @@ module.exports = function (options, process) {
               cwd: base,
               base: base,
               path: path.join(base, file),
-              contents: new Buffer(fs.readFileSync(filePath))
+              contents: Buffer.from(fs.readFileSync(filePath))
             }));
           }
         });

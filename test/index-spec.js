@@ -20,7 +20,7 @@ describe('intermediate', function () {
         cwd: cwd,
         base: base,
         path: path.join(base, 'top_level.js'),
-        contents: new Buffer('Hey!'),
+        contents: Buffer.from('Hey!'),
         stat: {
           atime: new Date(2013,2,1,1,10),
           mtime: new Date(2013,2,1,1,10),
@@ -31,7 +31,7 @@ describe('intermediate', function () {
         cwd: cwd,
         base: base,
         path: path.join(base, 'directory', 'nested.js'),
-        contents: new Buffer('Ho!'),
+        contents: Buffer.from('Ho!'),
         stat: {
           atime: new Date(2013,2,1,1,10),
           mtime: new Date(2013,2,1,1,10),
@@ -42,7 +42,7 @@ describe('intermediate', function () {
         cwd: cwd,
         base: base,
         path: path.join(base, 'empty.js'),
-        contents: new Buffer('')
+        contents: Buffer.from('')
       })
     ];
   });
@@ -138,19 +138,19 @@ describe('intermediate', function () {
         cwd: cwd,
         base: base,
         path: path.join(base, 'puhoy.js'),
-        contents: new Buffer('Generated!')
+        contents: Buffer.from('Generated!')
       }),
       new Vinyl({
         cwd: cwd,
         base: base,
         path: path.join(base, 'time_room/prismo.js'),
-        contents: new Buffer('Re-generated!')
+        contents: Buffer.from('Re-generated!')
       }),
       new Vinyl({
         cwd: cwd,
         base: base,
         path: path.join(base, 'glob_world/GOLB.js'),
-        contents: new Buffer('')
+        contents: Buffer.from('')
       })
     ];
 
