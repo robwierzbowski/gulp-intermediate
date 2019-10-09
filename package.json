@@ -1,6 +1,6 @@
 {
   "name": "gulp-intermediate",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "description": "A gulp helper for tools that need files on disk.",
   "license": "MIT",
   "repository": "robwierzbowski/gulp-intermediate",
@@ -10,7 +10,7 @@
     "url": "http://robwierzbowski.com"
   },
   "engines": {
-    "node": ">=4.8.3"
+    "node": ">=6.14.4"
   },
   "scripts": {
     "test": "mocha",
